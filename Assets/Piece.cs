@@ -29,6 +29,9 @@ public class Piece : MonoBehaviour
     private float dz = 0;
     private Vector3 direction;
 
+    // Do we have a user-set direction?
+    private bool hasVec = false;
+
     Vector3 p; // Momentum vector
     Vector3 Vel; // Velocity vector
     float mass;
@@ -41,7 +44,7 @@ public class Piece : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mass = rb.mass * massMultiplier;
         direction = new Vector3(dx, dy, dz);
-}
+    }
 
     Vector3 FreezeMotion()
     {
@@ -82,11 +85,18 @@ public class Piece : MonoBehaviour
 
     public Vector3 SetDirection(Vector3 NewDir)
     {
+        hasVec = hasVec ? hasVec : !hasVec;
+
         Vector3 old = direction;
         direction = NewDir;
         dx = direction.x;
         dy = direction.y;
         dz = direction.z;
         return direction;
+    }
+
+    public bool HasDirection()
+    {
+        return hasVec;
     }
 }

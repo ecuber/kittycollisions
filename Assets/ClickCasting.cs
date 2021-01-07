@@ -7,6 +7,7 @@ public class ClickCasting : MonoBehaviour
 {
 
     public TMP_Text selection;
+    private Piece currentPiece = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +20,20 @@ public class ClickCasting : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hitInfo = new RaycastHit();
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) )
+            List<string> pieces = new List<string>();
+            pieces.Add("Orange");
+            pieces.Add("Purple");
+
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) && pieces.IndexOf(hitInfo.collider.name) != -1)
             {
                 selection.text = "cp: " + hitInfo.collider.name;
+                currentPiece = hitInfo.collider.gameObject.GetComponent<Piece>();
+
+                if (!currentPiece.HasDirection())
+                {
+                    // spawn arrow
+                }
+                
             }
         }
     }

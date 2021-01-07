@@ -22,19 +22,29 @@ public class LaunchProps : MonoBehaviour
     public void Launch()
     {
         System.Random random = new System.Random();
+        List<(Piece, bool)> pieces = new List<(Piece, bool)>();
 
         int i = 0;
         foreach (Piece child in PieceGroup.GetComponentsInChildren<Piece>())
         {
             bool positive = random.NextDouble() > 0.5;
             float dy = (float) Math.Round(random.NextDouble(), 3) * magnitude / 2.5f;
-            child.SetDirection(i % 2 == 0 ? new Vector3(-1, 0, positive ? dy : -dy) : Vector3.right);
+            bool hasDir = child.HasDirection();
+            Vector3 direction = hasDir ? child.GetDirection() : Vector3.zero;
+
+            pieces.Add((child, hasDir));
             i++;
-            child.LaunchPiece(magnitude);
         }
-            
-            
-        //Piece.SetDirection(new Vector3(-1, 0, 0));
-        //Piece.LaunchPiece(magnitude);
+
+        i = 0;
+        int haveDir = 0;
+
+        foreach((Piece, bool) t in pieces)
+        {
+            if (t.Item2)
+                haveDir++;
+            i++;
+        }
+        
     }
 }
