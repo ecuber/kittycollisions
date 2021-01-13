@@ -1,6 +1,7 @@
 # Customs
 
 .DS_STORE
+/test0physfinal/
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
@@ -62,3 +63,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+
+test0physfinal/Build/test0physfinal.data.unityweb
+test0physfinal/Build/test0physfinal.wasm.code.unityweb
+test0physfinal/Build/test0physfinal.wasm.framework.unityweb

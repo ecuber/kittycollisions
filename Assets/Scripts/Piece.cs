@@ -31,6 +31,7 @@ public class Piece : MonoBehaviour
 
     // Do we have a user-set direction?
     private bool hasVec = false;
+    public Arrow arrow;
 
     Vector3 p; // Momentum vector
     Vector3 Vel; // Velocity vector
@@ -44,6 +45,16 @@ public class Piece : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mass = rb.mass * massMultiplier;
         direction = new Vector3(dx, dy, dz);
+    }
+
+    public void revealArrow()
+    {
+        this.arrow.toggle(true);
+    }
+
+    public void hideArrow()
+    {
+        this.arrow.toggle(false);
     }
 
     Vector3 FreezeMotion()
