@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class ClickCasting : MonoBehaviour
 {
 
-    public TMP_Text selection;
+    public Text selection;
     private Piece currentPiece = null;
     // Start is called before the first frame update
     void Start()

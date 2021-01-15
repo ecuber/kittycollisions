@@ -1,7 +1,7 @@
 ﻿    using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class Piece : MonoBehaviour
@@ -17,7 +17,7 @@ public class Piece : MonoBehaviour
 
     // Piece components
     public Rigidbody rb;
-    public TMP_Text PLabel;
+    public Text PLabel;
     public float massMultiplier = 2;
 
     // Stored vector planned course
@@ -74,8 +74,7 @@ public class Piece : MonoBehaviour
             vz = Vel.z;
         }
         K = 0.5f * mass * (float)(Math.Pow(v, 2));
-        p = new Vector3(vx, vy, vz) * mass;
-        PLabel.SetText(Math.Round(p.magnitude, 2) + " kg*m/s");
+        PLabel.text = "K: " + Math.Round(K, 2) + " J";
     }
 
     public void LaunchPiece(float magnitude)
