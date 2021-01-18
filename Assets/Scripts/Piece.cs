@@ -17,7 +17,7 @@ public class Piece : MonoBehaviour
 
     // Piece components
     public Rigidbody rb;
-    public Text PLabel;
+    public Slider KE;
     public float massMultiplier = 2;
 
     // Stored vector planned course
@@ -30,7 +30,7 @@ public class Piece : MonoBehaviour
     private Vector3 direction;
 
     // Do we have a user-set direction?
-    private bool hasVec = false;
+    private bool hasVec;
     public Arrow arrow;
 
     Vector3 p; // Momentum vector
@@ -42,6 +42,7 @@ public class Piece : MonoBehaviour
 
     void Start()
     {
+        hasVec = false;
         rb = GetComponent<Rigidbody>();
         mass = rb.mass * massMultiplier;
         direction = new Vector3(dx, dy, dz);
@@ -60,6 +61,7 @@ public class Piece : MonoBehaviour
     Vector3 FreezeMotion()
     {
         Destroy(rb);
+        this.gameObject.SetActive(false);
         return new Vector3(0, 0, 0);
     }
 
@@ -73,13 +75,14 @@ public class Piece : MonoBehaviour
             vy = Vel.y;
             vz = Vel.z;
         }
-        K = 0.5f * mass * (float)(Math.Pow(v, 2));
-        PLabel.text = "K: " + Math.Round(K, 2) + " J";
+        K = 0.5f * mass * (float) (Math.Pow(v, 2));
+        KE.value = (float) Math.Round(K, 2);
     }
 
-    public void LaunchPiece(float magnitude)
+    public void LaunchPiece()
     {
-        rb.AddForce(direction * magnitude, ForceMode.Impulse);
+        print("attempting launch. direction vector: " + direction);
+        rb.AddForce(direction, ForceMode.Impulse);
     }
 
 
@@ -93,15 +96,16 @@ public class Piece : MonoBehaviour
         return direction;
     }
 
-    public Vector3 SetDirection(Vector3 NewDir)
+    public Vector3 SetDirection(Vector3 newDir)
     {
-        hasVec = hasVec ? hasVec : !hasVec;
+        hasVec = true;
 
-        Vector3 old = direction;
-        direction = NewDir;
+        //Vector3 old = direction;
+        direction = new Vector3(newDir.x, newDir.y, newDir.z);
         dx = direction.x;
         dy = direction.y;
         dz = direction.z;
+        print("Piece - received direction: " + direction);
         return direction;
     }
 

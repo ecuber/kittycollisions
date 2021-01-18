@@ -19,10 +19,10 @@ public class FollowPuck : MonoBehaviour
     void Update()
     {
         // Offset position above object bbox (in world space)
-        float offsetPosY = target.transform.position.z + 1.5f;
+        float offsetPosY = target.transform.position.z + 0.75f;
 
         // Final position of marker above GO in world space
-        Vector3 offsetPos = new Vector3(target.transform.position.x, offsetPosY, target.transform.position.y);
+        Vector3 offsetPos = new Vector3(target.transform.position.x, target.transform.position.y, offsetPosY);
 
         // Calculate *screen* position (note, not a canvas/recttransform position)
         Vector2 canvasPos;
