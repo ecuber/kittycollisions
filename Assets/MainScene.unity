@@ -1241,11 +1241,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1645834026}
     m_Modifications:
+    - target: {fileID: 1774554893936533637, guid: d83301bd6a4f44148ba58630be499316,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5213635660297236808, guid: d83301bd6a4f44148ba58630be499316,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 5407197321734634901, guid: d83301bd6a4f44148ba58630be499316,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5407197321734634906, guid: d83301bd6a4f44148ba58630be499316,
         type: 3}
       propertyPath: m_Name

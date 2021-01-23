@@ -21,6 +21,7 @@ public class Arrow : MonoBehaviour
     public void setWidth(float len, float angle)
     {
         this.angle = angle;
+        print("angle: " + angle);
         width = len / 88.218f;
 
         if (width > 25)
@@ -53,9 +54,7 @@ public class Arrow : MonoBehaviour
 
     public void updateDirection(float len, float angle)
     {
-        print("angle: " + angle);
         BoxCollider old = boxCollider;
-        Debug.LogFormat("x: {0}, y: {1}", old.center.x, old.center.z);
         boxCollider.size = new Vector3(len, old.size.y, old.size.z);
 
         int signX = old.size.x > len ? -1 : 1;

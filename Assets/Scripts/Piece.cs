@@ -105,7 +105,6 @@ public class Piece : MonoBehaviour
         dx = direction.x;
         dy = direction.y;
         dz = direction.z;
-        print("Piece - received direction: " + direction);
         return direction;
     }
 

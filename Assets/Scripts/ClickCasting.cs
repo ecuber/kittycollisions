@@ -12,7 +12,9 @@ public class ClickCasting : MonoBehaviour
     private bool isDragDrop;
     private Vector3 dragOrigin;
     private static Vector3 placeholder = new Vector3(0, 0, 1);
-    private static float speed = 0.025f;
+    private static float speed = 0.05f;
+    private float dStartW;
+    private Vector3 prevPos;
 
     void Start()
     {
@@ -87,6 +89,7 @@ public class ClickCasting : MonoBehaviour
             if (dragOrigin == placeholder)
             {
                 dragOrigin = Input.mousePosition;
+                dStartW = arrow.getWidth();
             }
 
             float width = arrow.getWidth();
@@ -95,11 +98,16 @@ public class ClickCasting : MonoBehaviour
 
             int sign = dragOrigin.magnitude < Input.mousePosition.magnitude ? 1 : -1;
 
-            if (arrow.getAngle() != Mathf.Atan(dMouse.y / dMouse.x))
-                arrow.transform.Rotate(0, 0, Mathf.Atan(dMouse.y / dMouse.x), Space.Self);
-            else
+            print("tantheta: " + dMouse.y / dMouse.x);
+
+            float curAngle = Mathf.Atan(dMouse.y / dMouse.x);
+
+            if (dMouse.magnitude != arrow.getWidth())
                 arrow.setWidth(sign * dMouse.magnitude * speed + width, Mathf.Atan(dMouse.y / dMouse.x));
-            
+            else
+                arrow.transform.Rotate(0, 0, curAngle * Time.deltaTime, Space.World);
+
+            prevPos = Input.mousePosition;
 
         }
     }
