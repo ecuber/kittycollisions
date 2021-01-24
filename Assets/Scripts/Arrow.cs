@@ -32,7 +32,6 @@ public class Arrow : MonoBehaviour
         transform.Rotate(Vector3.forward * delta * 360);
         this.angle = angle;
         float inRad = angle * 360 * Mathf.PI / 180;
-        print("angle: " + inRad + "rad");
         updateDirection(new Vector3(Mathf.Cos(inRad), 0, Mathf.Sin(inRad)));
     }
 
@@ -58,7 +57,6 @@ public class Arrow : MonoBehaviour
 
     public void updateDirection(Vector3 direction)
     {
-        print("direction: " + direction);
         parent.SetDirection(direction);
     }
 

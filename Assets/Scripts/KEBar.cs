@@ -10,6 +10,7 @@ public class KEBar : MonoBehaviour
     public Piece target;
     public RectTransform canvasRect;
     public Image fill;
+    public Text reading;
 
     // Start is called before the first frame update
     void Start()
@@ -37,5 +38,10 @@ public class KEBar : MonoBehaviour
         // Set
         transform.localPosition = canvasPos;
 
+    }
+
+    public void setText(float joules)
+    {
+        reading.text = System.Math.Round(joules, 1) - 2 + "J";
     }
 }
