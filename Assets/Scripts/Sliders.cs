@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class FollowPuck : MonoBehaviour
+[ExecuteAlways]
+public class Sliders : MonoBehaviour
 {
 
     public Piece target;
     public RectTransform canvasRect;
-    bool activated = false;
-    bool beenActivated = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +19,17 @@ public class FollowPuck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Color p = target.color;
+
+        Slider[] sliders = GetComponentsInChildren<Slider>();
+        foreach (Slider slider in sliders)
+        {
+            slider.transform.Find("Background").gameObject.GetComponent<Image>().color = new Color(p.r, p.g, p.b, 0.6f);
+            slider.transform.Find("Fill Area").Find("Fill").gameObject.GetComponent<Image>().color = new Color(p.r, p.g, p.b);
+        }
+
         // Offset position above object bbox (in world space)
-        float offsetPosY = target.transform.position.z + 0.75f;
+        float offsetPosY = target.transform.position.z - 0.65f;
 
         // Final position of marker above GO in world space
         Vector3 offsetPos = new Vector3(target.transform.position.x, target.transform.position.y, offsetPosY);
@@ -34,15 +44,5 @@ public class FollowPuck : MonoBehaviour
         // Set
         transform.localPosition = canvasPos;
 
-
-        if (activated)
-        {
-            if (!beenActivated)
-            {
-                gameObject.SetActive(true);
-            }
-
-            
-        }
     }
 }

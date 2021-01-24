@@ -28,7 +28,7 @@ public class LaunchProps : MonoBehaviour
 
             foreach (Piece piece in pieces)
             {
-                print("launching piece: " + piece + " with direction " + piece.GetDirection());
+                //print("launching piece: " + piece + " with direction " + piece.GetDirection());
                 piece.LaunchPiece();
             }
         }

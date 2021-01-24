@@ -9,122 +9,54 @@ public class ClickCasting : MonoBehaviour
     public Text selection;
     private Piece currentPiece = null;
     private Arrow arrow = null;
-    private bool isDragDrop;
-    private Vector3 dragOrigin;
-    private static Vector3 placeholder = new Vector3(0, 0, 1);
-    private static float speed = 0.05f;
-    private float dStartW;
-    private Vector3 prevPos;
 
     void Start()
     {
-        isDragDrop = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isDragDrop)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            RaycastHit hitInfo = new RaycastHit();
+            List<string> pieces = new List<string>();
+            pieces.Add("Pink1");
+            pieces.Add("Pink2");
+            pieces.Add("Pink3");
+            pieces.Add("Purple1");
+            pieces.Add("Purple2");
+            pieces.Add("Purple3");
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            // True if ray collides with any collider.
+            // If true, hitInfo has value typed RaycastHit.
+            if (Physics.Raycast(ray, out hitInfo))
             {
-                RaycastHit hitInfo = new RaycastHit();
-                List<string> pieces = new List<string>();
-                pieces.Add("Pink");
-                pieces.Add("Purple");
-
-                List<string> arrows = new List<string>();
-                arrows.Add("ArrowPink");
-                arrows.Add("ArrowPurp");
-
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                // True if ray collides with any collider.
-                // If true, hitInfo has value typed RaycastHit.
-                if (Physics.Raycast(ray, out hitInfo))
+                print(hitInfo.collider);
+                Collider hit = hitInfo.collider;
+                if (pieces.IndexOf(hit.name) != -1)
                 {
-                    Collider hit = hitInfo.collider;
-                    if (pieces.IndexOf(hit.name) != -1)
+                    selection.text = "Selected: " + hitInfo.collider.name;
+
+                    if (currentPiece)
+                        currentPiece.showSliders(false);
+
+                    currentPiece = hit.gameObject.GetComponent<Piece>();
+                    currentPiece.showSliders(true);
+
+                    if (!currentPiece.HasDirection())
                     {
-                        selection.text = "cp: " + hitInfo.collider.name;
-                        currentPiece = hit.gameObject.GetComponent<Piece>();
-
-                        if (!currentPiece.HasDirection())
-                        {
-                            currentPiece.revealArrow();
-                            arrow = currentPiece.GetComponentInChildren<Arrow>();
-                            //print("set arrow" + arrow);
-                            arrow.setWidth(9.97f * 88.218f, arrow.getAngle());
-                        }
+                        arrow = currentPiece.GetComponentInChildren<Arrow>();
+                        currentPiece.revealArrow();
                     }
-
-                    else if (arrows.IndexOf(hit.name) != -1)
-                    {
-                        isDragDrop = true;
-                        Transform parent = hit.transform.parent.gameObject.transform.parent.gameObject.transform.parent;
-                        //print("found arrow of: " + parent);
-                        //Debug.LogFormat("mouse position: x: {0}, y: {1}, z: {2}", Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z);
-                        arrow = hit.gameObject.GetComponent<Arrow>();
-                        //print(arrow);
-
-                    }
-
                 }
 
             }
-        }
-
-        else if(Input.GetMouseButtonUp(0))
-        {
-            isDragDrop = false;
-            dragOrigin = placeholder;
-            arrow = null;
-            currentPiece = null;
-        }
-
-
-        //dragging now
-        else
-        {
-            if (dragOrigin == placeholder)
-            {
-                dragOrigin = Input.mousePosition;
-                dStartW = arrow.getWidth();
-            }
-
-            float width = arrow.getWidth();
-
-            Vector3 dMouse = (dragOrigin - Input.mousePosition);
-
-            int sign = dragOrigin.magnitude < Input.mousePosition.magnitude ? 1 : -1;
-
-            print("tantheta: " + dMouse.y / dMouse.x);
-
-            float curAngle = Mathf.Atan(dMouse.y / dMouse.x);
-
-            if (dMouse.magnitude != arrow.getWidth())
-                arrow.setWidth(sign * dMouse.magnitude * speed + width, Mathf.Atan(dMouse.y / dMouse.x));
-            else
-                arrow.transform.Rotate(0, 0, curAngle * Time.deltaTime, Space.World);
-
-            prevPos = Input.mousePosition;
 
         }
     }
-
-    private int getQuadrant(Vector3 vec)
-    {
-        float x = vec.x;
-        float y = vec.y;
-        if (x > 0 && y > 0)
-            return 1;
-        else if (x < 0 && y > 0)
-            return 2;
-        else if (x < 0 && y < 0)
-            return 3;
-        else if (x > 0 && y < 0)
-            return 4;
-        return 0;
-    }
+      
 
 }

@@ -1,6 +1,4 @@
-﻿    using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
 
@@ -17,51 +15,48 @@ public class Piece : MonoBehaviour
 
     // Piece components
     public Rigidbody rb;
-    public Slider KE;
     public float massMultiplier = 2;
 
     // Stored vector planned course
-    [SerializeField]
-    private float dx = 1;
-    [SerializeField]
-    private float dy = 0;
-    [SerializeField]
-    private float dz = 0;
-    private Vector3 direction;
+    private Vector3 direction = Vector3.right;
 
-    // Do we have a user-set direction?
     private bool hasVec;
     public Arrow arrow;
+    GameObject sliders;
 
-    Vector3 p; // Momentum vector
+    // KE Reading
+    public Color color;
+    public Slider KE;
+
     Vector3 Vel; // Velocity vector
     float mass;
     float K; // Kinetic Energy
     float v; // Velocity magnitude
-    float vx, vy, vz; // XYZ components of Vel
 
     void Start()
     {
         hasVec = false;
         rb = GetComponent<Rigidbody>();
         mass = rb.mass * massMultiplier;
-        direction = new Vector3(dx, dy, dz);
+        sliders = transform.Find("Sliders").Find("Settings").gameObject;
+        showSliders(false);
     }
 
-    public void revealArrow()
+    public bool revealArrow()
     {
-        this.arrow.toggle(true);
+        arrow.setWidth(6.5f);
+        return true;
     }
 
-    public void hideArrow()
+    public void showSliders(bool show)
     {
-        this.arrow.toggle(false);
+        sliders.SetActive(show);
     }
 
     Vector3 FreezeMotion()
     {
         Destroy(rb);
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
         return new Vector3(0, 0, 0);
     }
 
@@ -71,18 +66,14 @@ public class Piece : MonoBehaviour
         {
             Vel = rb.position.y < -3.5 ? FreezeMotion() : rb.velocity;
             v = Vel.magnitude;
-            vx = Vel.x;
-            vy = Vel.y;
-            vz = Vel.z;
         }
         K = 0.5f * mass * (float) (Math.Pow(v, 2));
-        KE.value = (float) Math.Round(K, 2);
+        KE.value = (float) Math.Round(K + 2, 2);
     }
 
     public void LaunchPiece()
     {
-        print("attempting launch. direction vector: " + direction);
-        rb.AddForce(direction, ForceMode.Impulse);
+        rb.AddForce(arrow.getWidth() / 6.25f * direction, ForceMode.Impulse);
     }
 
 
@@ -93,19 +84,14 @@ public class Piece : MonoBehaviour
 
     public Vector3 GetDirection()
     {
+        hasVec = true;
         return direction;
     }
 
-    public Vector3 SetDirection(Vector3 newDir)
+    public void SetDirection(Vector3 newDir)
     {
-        hasVec = true;
-
-        //Vector3 old = direction;
-        direction = new Vector3(newDir.x, newDir.y, newDir.z);
-        dx = direction.x;
-        dy = direction.y;
-        dz = direction.z;
-        return direction;
+        hasVec = hasVec ? hasVec : revealArrow();
+        direction = newDir;
     }
 
     public bool HasDirection()
