@@ -55,7 +55,6 @@ public class ClickCasting : MonoBehaviour
             // If true, hitInfo is initialized with a value
             if (Physics.Raycast(ray, out hitInfo))
             {
-                print(hitInfo.collider);
                 Collider hit = hitInfo.collider;
                 if (System.Array.IndexOf(pieces, hit.name) != -1)
                 {

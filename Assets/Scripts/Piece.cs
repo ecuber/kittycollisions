@@ -42,6 +42,15 @@ public class Piece : MonoBehaviour
         showSliders(false);
     }
 
+    void FixedUpdate()
+    {
+        if (hasVec)
+        {
+            arrow.setAngle(arrow.getAngle() - transform.eulerAngles.z % 360 / 360);
+        }
+        
+    }
+
     public bool revealArrow()
     {
         arrow.setWidth(6.5f);
@@ -90,7 +99,7 @@ public class Piece : MonoBehaviour
 
     public void SetDirection(Vector3 newDir)
     {
-        hasVec = hasVec ? hasVec : revealArrow();
+        hasVec = hasVec && newDir != Vector3.zero ? hasVec : revealArrow();
         direction = newDir;
     }
 

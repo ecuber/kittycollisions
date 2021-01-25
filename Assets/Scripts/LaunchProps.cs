@@ -1,15 +1,17 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.UI;
+
 
 public class LaunchProps : MonoBehaviour
 {
-    public float magnitude = 3;
     public List<GameObject> PieceGroups;
+    public Button launchButton;
 
     public void Launch()
     {
+        launchButton.interactable = false;
         List<Piece> pieces = new List<Piece>();
 
         int i = 0;
@@ -29,6 +31,7 @@ public class LaunchProps : MonoBehaviour
             foreach (Piece piece in pieces)
             {
                 //print("launching piece: " + piece + " with direction " + piece.GetDirection());
+                piece.showSliders(false);
                 piece.LaunchPiece();
             }
         }
